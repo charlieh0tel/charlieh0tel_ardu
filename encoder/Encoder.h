@@ -38,7 +38,7 @@ public:
     pinMode(this->pin_b, config.pin_mode_b);
     pinMode(this->pin_switch, config.pin_mode_switch);
 
-    this->last_switch_interrupt_time = millis(); // Initialize debounce timer
+    this->last_switch_interrupt_time = millis();
 
     attachInterrupt(digitalPinToInterrupt(config.pin_a), config.quadrature_isr, CHANGE);
     attachInterrupt(digitalPinToInterrupt(config.pin_b), config.quadrature_isr, CHANGE);
@@ -59,11 +59,11 @@ public:
 
     if (time_diff > kRateMinTimeForUpdateMicros) {
       long position_diff = this->position - this->last_rate_calc_position;
-      
+
       float pulses_per_second = (float)position_diff * 1000000.0 / time_diff;
-      
+
       this->rate_rpm = (pulses_per_second / this->pulses_per_revolution) * 60.0;
-      
+
       this->last_rate_calc_position = this->position;
       this->last_rate_calc_time = current_time;
     }
@@ -81,7 +81,7 @@ public:
     int8_t b = digitalRead(this->pin_b);
     int8_t encoded_state = (a << 1) | b;
 
-   if (encoded_state != this->last_encoded_state) {
+    if (encoded_state != this->last_encoded_state) {
       uint8_t history = (this->last_encoded_state << 2) | encoded_state;
       float direction = 0.0;
       switch (history) {
@@ -132,10 +132,10 @@ private:
 
   uint8_t pin_a, pin_b, pin_switch;
   unsigned int pulses_per_revolution;
-  
+
   volatile long position = 0;
   volatile float rate_rpm = 0.0;
-  volatile int8_t last_encoded_state = 0; 
+  volatile int8_t last_encoded_state = 0;
   volatile int8_t last_direction = 0;
   long last_rate_calc_position = 0;
   unsigned long last_rate_calc_time = 0;
@@ -143,4 +143,3 @@ private:
   volatile bool switch_pressed = false;
   volatile unsigned long last_switch_interrupt_time = 0;
 };
-
