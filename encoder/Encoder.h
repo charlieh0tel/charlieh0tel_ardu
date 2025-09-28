@@ -137,8 +137,8 @@ private:
   volatile float rate_rpm = 0.0;
   volatile int8_t last_encoded_state = 0;
   volatile int8_t last_direction = 0;
-  long last_rate_calc_position = 0;
-  unsigned long last_rate_calc_time = 0;
+  volatile long last_rate_calc_position = 0;
+  volatile unsigned long last_rate_calc_time = 0;
 
   volatile bool switch_pressed = false;
   volatile unsigned long last_switch_interrupt_time = 0;
